@@ -1,19 +1,37 @@
-<?php
+<!DOCTYPE html>
+<html lang="en">
 
-global $conn;
-include 'connection.php';
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="assets/style/style.css">
+</head>
 
-echo "hoi";
-$user = $_GET['gebruikersnaam'];
-$pass = $_GET['wachtwoord'];
+<body>
+    <?php include ('navbar.php') ?>
+    <section class="login-container">
+        <div class="login-blok">
+            <div class="login-input">
+                <?php
+                // Check if the user is logged in
+                if (isset($_SESSION['admin']) === true) {
+                    // If logged in, display a logout button
+                    echo '<form class="login-invoer" action="assets/php/logout.php" method="post">';
+                    echo '<input type="submit" value="Uitloggen">';
+                    echo '</form>';
+                } else {
+                    // If not logged in, display the login form
+                    echo '<form class="login-invoer" action="assets/php/login.php" method="post">';
+                    echo '<input type="text" name="user" placeholder="Naam">';
+                    echo '<input type="password" name="password" placeholder="Wachtwoord">';
+                    echo '<input type="submit" value="Inloggen">';
+                    echo '</form>';
+                }
+                ?>
+            </div>
+        </div>
+    </section>
+</body>
 
-$stmt = $conn->prepare("SELECT gebruikersnaam, wachtwoord FROM users WHERE gebruikersnaam='$user' AND wachtwoord='$pass'");
-$stmt->execute();
-$result = $stmt->fetchAll();
-var_dump($result);
-if(isset($result)){
-    echo 'klopt';
-}
-else{
-    echo 'niet';
-}   
+</html>
